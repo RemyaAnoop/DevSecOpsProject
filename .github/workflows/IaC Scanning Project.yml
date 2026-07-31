@@ -3,7 +3,7 @@ name: IaC Security Scan Project
 on:
   push:
     branches:
-      - SAST_Fixes
+      - main
 
 jobs:
   iac-scan:

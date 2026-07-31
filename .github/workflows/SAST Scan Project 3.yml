@@ -6,7 +6,7 @@ permissions:
 
 on:
   push:
-    branches: [ SAST_Fixes ]
+    branches: [ main ]
 
 jobs:
   sast:
