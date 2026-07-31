@@ -11,7 +11,7 @@ import defusedxml.ElementTree as ET
 import pickle
 import jwt
 import urllib3
-from flask import Flask, request, escape
+from flask import Flask, request, escape, jsonify
 import json
 
 # Flask application
@@ -103,8 +103,12 @@ def greet():
 # 8. **Insecure Deserialization**
 def insecure_deserialize(data):
     import json  # Import required for safe deserialization
-    return json.loads(data)
-
+    try:
+        payload = data.decode('utf-8',errors='replace') if isinstance(data, (bytes, bytearray)) else data
+        parsed = json.loads(payload)
+        return jsonify(parsed)
+    except (TypeError, ValueError, json.JSONDecodeError):
+        return jsonify({"error": "Invalid JSON payload"}), 400
 # 9. **Using Components with Known Vulnerabilities**
 def use_vulnerable_library():
     # Using a vulnerable version of urllib3
